@@ -1,15 +1,24 @@
 <?php
-// e-05-database/index.php — controller native: konek DB via PDO, kirim data ke view
-require_once __DIR__ . '/../config/database.php';
-
+// e-05-database/index.php — PHP native: koneksi PDO + query + kirim data ke view (satu file)
+$host = 'localhost';
+$dbname = 'web_dasar';
+$username = 'root';
+$password = '';
+$charset = 'utf8mb4';
+$dsn = "mysql:host=$host;dbname=$dbname;charset=$charset";
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+];
 try {
+    $pdo = new PDO($dsn, $username, $password, $options);
     $stmt = $pdo->query("SELECT * FROM mahasiswa ORDER BY id ASC");
     $dataMahasiswa = $stmt->fetchAll();
-
     $stmt2 = $pdo->query("SELECT * FROM produk ORDER BY id ASC");
     $dataProduk = $stmt2->fetchAll();
 } catch (PDOException $e) {
-    die("Query gagal: " . htmlspecialchars($e->getMessage()));
+    die("Koneksi/Query gagal: " . htmlspecialchars($e->getMessage()));
 }
 ?>
 <!DOCTYPE html>
@@ -33,7 +42,7 @@ try {
   <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
     <div>
       <h4 class="fw-bold mb-1"><i class="bi bi-table me-2"></i>Data dari Database Lokal</h4>
-      <p class="text-muted small mb-0">DB <code>web_dasar</code> • koneksi PDO <code>config/database.php</code> • data dikirim dari PHP ke view</p>
+      <p class="text-muted small mb-0">DB <code>web_dasar</code> • PDO inline di file ini • data dikirim dari PHP ke view</p>
     </div>
     <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i> PDO Connected</span>
   </div>
@@ -115,10 +124,6 @@ try {
       </table>
     </div>
     <div class="card-footer bg-white text-muted small">Menampilkan <?= count($dataProduk) ?> produk • harga format Rp, stok badge otomatis</div>
-  </div>
-
-  <div class="alert alert-light border mt-3 small">
-    <i class="bi bi-code-square me-1"></i> Alur native: <code>config/database.php</code> (PDO) → <code>e-05-database/index.php</code> (<code>$pdo-&gt;query()</code> → <code>$dataMahasiswa/$dataProduk</code>) → HTML view <code>foreach</code> + <code>htmlspecialchars()</code>.
   </div>
 </div>
 
