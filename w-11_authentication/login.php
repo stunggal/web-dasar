@@ -112,9 +112,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </form>
 
       <div class="text-center text-muted small">
-        <p class="mb-1"><strong>Akun Demo:</strong></p>
-        <p class="mb-0"><code>admin</code> / <code>admin123</code> (Admin)</p>
-        <p class="mb-0"><code>user</code> / <code>user123</code> (User)</p>
+        <p class="mb-0">Belum punya akun? <a href="register.php" class="fw-semibold">Daftar sekarang</a></p>
+        <p class="mt-2 mb-0"><strong>Akun Demo:</strong> <code>admin</code> / <code>admin123</code> · <code>user</code> / <code>user123</code></p>
       </div>
     </div>
   </div>
